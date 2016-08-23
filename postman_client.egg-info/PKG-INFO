@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: postman-client
-Version: 0.1.0
+Version: 0.1.1
 Summary: Client service, to send simple text emails or, using a template created at Postman, send more complex emails.
 Home-page: https://github.com/ThCC/postman-client
 Author: Thiago Cardoso de Castro
@@ -17,10 +17,10 @@ Description: Client service, to send simple text emails or, using a template cre
         
             from postman.models import Mail
             from postman.client import PostMan
-            
+        
             class SendSimpleMail(object):
                 postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
-            
+        
                 def send(self):
                     mail = Mail(
                         recipient_list=[
@@ -39,10 +39,10 @@ Description: Client service, to send simple text emails or, using a template cre
         
             from postman.models import Mail
             from postman.client import PostMan
-            
+        
             class SendTemplateMail(object):
                 postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
-            
+        
                 def send(self):
                     mail = Mail(
                         recipient_list=[

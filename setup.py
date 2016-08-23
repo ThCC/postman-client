@@ -15,7 +15,7 @@ setup(
     ],
     url='https://github.com/ThCC/postman-client',
     description='Client service, to send simple text emails or, using a template created at Postman, send more complex emails.',
-    long_description=open("README.md").read(),
+    long_description=open("README.rst").read(),
     packages=find_packages(),
     include_package_data=True,
     license='MIT',

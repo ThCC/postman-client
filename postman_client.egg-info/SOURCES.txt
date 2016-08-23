@@ -1,0 +1,14 @@
+README.txt
+setup.cfg
+setup.py
+postman/__init__.py
+postman/client.py
+postman/exceptions.py
+postman/models.py
+postman/test_variables.py
+postman/tests.py
+postman_client.egg-info/PKG-INFO
+postman_client.egg-info/SOURCES.txt
+postman_client.egg-info/dependency_links.txt
+postman_client.egg-info/requires.txt
+postman_client.egg-info/top_level.txt

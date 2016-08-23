@@ -47,6 +47,7 @@ class TestAuthentication(unittest.TestCase):
 
     def test_method_post_template(self):
         mail = Mail(
+            headers={'X_CLIENT_ID': 1},
             recipient_list=self.variables['recipients'],
             from_name=self.variables['from_name'],
             from_email=self.variables['from_email'],

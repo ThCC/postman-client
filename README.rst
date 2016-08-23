@@ -10,53 +10,51 @@ Follow the examples below to send simple emails or emails with templates:
     from postman.models import Mail
     from postman.client import PostMan
 
-    class SendSimpleMail(object):
-        postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
+    postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
 
-        def send(self):
-            mail = Mail(
-                recipient_list=[
-                    'Foo Bar <foo.bar@gmail.com>',
-                    'Fulano Aquino <fulano.aquino@gmail.com>',
-                    '<ciclano.norego@gmail.com>'
-                ],
-                message="Just a Test, delete if you want.",
-                from_name='Beutrano',
-                from_email='beutrano@gmail.com',
-                subject="Just a test"
-            )
-            response = self.postman.send(mail)
+    def send(self):
+        mail = Mail(
+            recipient_list=[
+                'Foo Bar <foo.bar@gmail.com>',
+                'Fulano Aquino <fulano.aquino@gmail.com>',
+                '<ciclano.norego@gmail.com>'
+            ],
+            message="Just a Test, delete if you want.",
+            from_name='Beutrano',
+            from_email='beutrano@gmail.com',
+            subject="Just a test"
+        )
+        response = self.postman.send(mail)
 
 **Template Emails:**
 
     from postman.models import Mail
     from postman.client import PostMan
 
-    class SendTemplateMail(object):
-        postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
+    postman = PostMan(key='<your_account_public_key>', secret='<your_account_secret_key>')
 
-        def send(self):
-            mail = Mail(
-                recipient_list=[
-                    'Foo Bar <foo.bar@gmail.com>',
-                    'Fulano Aquino <fulano.aquino@gmail.com>',
-                    '<ciclano.norego@gmail.com>'
-                ],
-                from_name='Beutrano',
-                from_email='beutrano@gmail.com',
-                template_name='test-101',
-                context={'foobar': True},
-                context_per_recipient={
-                    "foo.bar@gmail.com": {"foo": True},
-                    "fulano.arquino@gmail.com.br": {"bar": True}
-                },
-                use_template_subject=True,
-                use_template_email=False,
-                use_template_from=False
-            )
-            response = self.postman.send_template(mail)
+    def send(self):
+        mail = Mail(
+            recipient_list=[
+                'Foo Bar <foo.bar@gmail.com>',
+                'Fulano Aquino <fulano.aquino@gmail.com>',
+                '<ciclano.norego@gmail.com>'
+            ],
+            from_name='Beutrano',
+            from_email='beutrano@gmail.com',
+            template_name='test-101',
+            context={'foobar': True},
+            context_per_recipient={
+                "foo.bar@gmail.com": {"foo": True},
+                "fulano.arquino@gmail.com.br": {"bar": True}
+            },
+            use_template_subject=True,
+            use_template_email=False,
+            use_template_from=False
+        )
+        response = self.postman.send_template(mail)
 
-**Parameters:**
+**Mail Parameters:**
 
 Parameter - Type - Required - Description
 
@@ -83,3 +81,13 @@ use_template_subject - Bool - No* - If set to `True` it use the default value se
 context - Dict - No - Global variables use in the Template. The format is expressed in the example (above).
 
 context_per_recipient - Dict - No - Variables set for each recipient. The format is expressed in the example (above).
+
+**Client Parameters:**
+
+Parameter - Type - Required - Description
+
+key - String - Yes - Your account's public key in the Postman.
+
+secret - String - Yes - Your account's private key in the Postman.
+
+fail_silently - Bool - No - If set to `True` the lib will raise it's exceptions. Default `False`.

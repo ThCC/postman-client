@@ -1,3 +1,8 @@
+try:
+    # from test_variables import variables
+    from foo import bar
+except ImportError:
+    variables = False
 import unittest
 from models import Mail
 from client import PostMan
@@ -6,22 +11,33 @@ from client import PostMan
 class TestAuthentication(unittest.TestCase):
 
     def setUp(self):
-        self.postman = PostMan(key='1e4be7cdd03545958e34', secret='cf8cdba282104ed88f0a', debug=True)
+        if variables:
+            self.variables = variables
+        else:
+            self.variables = {
+                "recipients": [
+                    "Foo Bar <foo.bar@gmail.com>",
+                    "Fulano Aquino <fulano.aquino@gmail.com>",
+                    "<ciclano.norego@gmail.com>"
+                ],
+                "context_per_recipient": {
+                    "foo.bar@gmail.com": {"foo": True},
+                    "fulano.arquino@gmail.com.br": {"bar": True}
+                },
+                "from_name": 'Beutrano',
+                "from_email": 'beutrano@gmail.com',
+                "template_name": 'test-101',
+                "key": '2e7be7ced03535958e35',
+                "secret": 'ca3cdba202104fd88d01'
+            }
+        self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'], debug=True)
 
     def test_method_post_text(self):
         mail = Mail(
-            recipient_list=[
-                  "Thiago de Castro <thiago.decastro2@gmail.com>",
-                  "Thiago C de Castro <THIAGO.CIRRUS@ALTERDATA.COM.BR>",
-                  "<success@simulator.amazonses.com>",
-                  "<bounce@simulator.amazonses.com>",
-                  "<ooto@simulator.amazonses.com>",
-                  "<complaint@simulator.amazonses.com>",
-                  "<suppressionlist@simulator.amazonses.com>"
-              ],
-            message="Apenas um teste. Pode deletar se quiser.",
-            from_name='Postman',
-            from_email='postman@alterdata.com.br',
+            recipient_list=self.variables['recipients'],
+            message="Just a Test, delete if you want.",
+            from_name=self.variables['from_name'],
+            from_email=self.variables['from_email'],
             subject="Just a test"
         )
         response = self.postman.send(mail)
@@ -32,23 +48,12 @@ class TestAuthentication(unittest.TestCase):
 
     def test_method_post_template(self):
         mail = Mail(
-            recipient_list=[
-                "Thiago de Castro <thiago.decastro2@gmail.com>",
-                "Thiago C de Castro <THIAGO.CIRRUS@ALTERDATA.COM.BR>",
-                "<success@simulator.amazonses.com>",
-                "<bounce@simulator.amazonses.com>",
-                "<ooto@simulator.amazonses.com>",
-                "<complaint@simulator.amazonses.com>",
-                "<suppressionlist@simulator.amazonses.com>"
-            ],
-            from_name='Postman',
-            from_email='postman@alterdata.com.br',
-            template_name="teste-01",
+            recipient_list=self.variables['recipients'],
+            from_name=self.variables['from_name'],
+            from_email=self.variables['from_email'],
+            template_name=self.variables['template_name'],
             context={'foobar': True},
-            context_per_recipient={
-                "thiago.decastro2@gmail.com": {"foo": True},
-                "thiago.cirrus@alterdata.com.br": {"bar": True}
-            },
+            context_per_recipient=self.variables['context_per_recipient'],
             use_template_subject=True,
             use_template_email=False,
             use_template_from=False

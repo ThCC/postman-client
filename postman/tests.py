@@ -1,6 +1,5 @@
 try:
-    # from test_variables import variables
-    from foo import bar
+    from test_variables import variables
 except ImportError:
     variables = False
 import unittest

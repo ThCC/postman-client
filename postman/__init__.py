@@ -6,7 +6,7 @@ from apysignature.signature import Request as Request_sig, Token
 from requests import Request, Session, ReadTimeout, ConnectTimeout, HTTPError
 
 __author__ = 'thiagocdecastro'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 logging.basicConfig(format='%(asctime)s %(message)s')
 
 

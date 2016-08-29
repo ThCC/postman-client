@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from postman import __version__
 from setuptools import setup, find_packages
 
 
 setup(
     name='postman-client',
-    version=__version__,
+    version='0.1.3',
     install_requires=[
         'django>=1.7',
         'requests==2.11.0',

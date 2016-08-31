@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from postman.exceptions import InvalidParam
+from postman_client.exceptions import InvalidParam
 
 
 class Mail(object):

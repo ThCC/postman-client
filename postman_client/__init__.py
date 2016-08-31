@@ -1,12 +1,12 @@
 import json
 import logging
-from postman.exceptions import APIError
+from postman_client.exceptions import APIError
 from apysignature.query_encoder import QueryEncoder
 from apysignature.signature import Request as Request_sig, Token
 from requests import Request, Session, ReadTimeout, ConnectTimeout, HTTPError
 
 __author__ = 'thiagocdecastro'
-__version__ = '0.1.4'
+__version__ = '0.1.6'
 logging.basicConfig(format='%(asctime)s %(message)s')
 
 

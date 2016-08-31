@@ -1,6 +1,6 @@
-from django.conf import settings
+# -*- coding: utf-8 -*-
 from postman import endpoint, Api
-from django.core.exceptions import ImproperlyConfigured
+from exceptions import ImproperlyConfigured
 
 
 class PostMan(Api):
@@ -13,13 +13,13 @@ class PostMan(Api):
         else:
             self.server_uri = 'http://postman.alterdata.com.br'
 
-        if not hasattr(settings, 'POSTMAN_KEY') and not key:
-            raise ImproperlyConfigured('API Key must be present in django settings or set in the constructor')
-        if not hasattr(settings, 'POSTMAN_SECRET') and not secret:
-            raise ImproperlyConfigured('API Secret must be present in django settings or set in the constructor')
+        if not key:
+            raise ImproperlyConfigured('A chave pública da API tem que ser passada no construtor')
+        if not secret:
+            raise ImproperlyConfigured('A chave privada da API tem que ser passada no construtor')
 
-        self._api_key = settings.POSTMAN_KEY if not key else key
-        self._api_secret = settings.POSTMAN_SECRET if not secret else secret
+        self._api_key = key
+        self._api_secret = secret
 
     @endpoint(Api.POST, '/api/send_mail/')
     def send(self, mail):

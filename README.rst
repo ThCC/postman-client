@@ -78,6 +78,12 @@ use_template_email - Bool - No* - If set to `True` it use the default value set 
 
 use_template_subject - Bool - No* - If set to `True` it use the default value set to the subject.
 
+expose_recipients_list | Bool | No* | If set to `True` every recipient will see the entire list of recipients.
+
+get_text_from_html | Bool | No* | If set to `True` postman will extract from your html template an text version. This will only happen if your template doesn't already have an text version.
+
+activate_tracking | Bool | No* | If set to `True` postman will track if your email will be open and how many times. Also it will track any links clicked inside the email.
+
 context - Dict - No - Global variables use in the Template. The format is expressed in the example (above).
 
 context_per_recipient - Dict - No - Variables set for each recipient. The format is expressed in the example (above).

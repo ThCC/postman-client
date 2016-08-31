@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='postman-client',
-    version='0.1.3',
+    version='0.1.4',
     install_requires=[
         'django>=1.7',
         'requests==2.11.0',

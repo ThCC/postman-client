@@ -15,13 +15,19 @@ class Mail(object):
         assert 'subject' in kwargs or ('use_template_subject' in kwargs and kwargs['use_template_subject']), \
             'Impossible to send email without a subject'
 
+        # General mail vars
         self.set_attr('tags', kwargs)
         self.set_attr('subject', kwargs)
-        self.set_attr('message', kwargs)
         self.set_attr('from_name', kwargs)
         self.set_attr('from_email', kwargs)
         self.set_attr('recipient_list', kwargs)
         self.check_recipient_list()
+        self.set_attr('activate_tracking', kwargs)
+        self.set_attr('get_text_from_html', kwargs)
+        self.set_attr('expose_recipients_list', kwargs)
+
+        # Simple mail vars
+        self.set_attr('message', kwargs)
 
         # Template mail vars
         self.set_attr('headers', kwargs)

@@ -1,5 +1,5 @@
 try:
-    from test_variables import variables
+    from test_variables import variables, server_uri_test
 except ImportError:
     variables = False
 import unittest
@@ -8,11 +8,12 @@ from client import PostMan
 
 
 class TestAuthentication(unittest.TestCase):
-
     def setUp(self):
         if variables:
+            self.test_server_uri = server_uri_test
             self.variables = variables
         else:
+            self.test_server_uri = None
             self.variables = {
                 "recipients": [
                     "Foo Bar <foo.bar@gmail.com>",
@@ -29,7 +30,8 @@ class TestAuthentication(unittest.TestCase):
                 "key": '2e7be7ced03535958e35',
                 "secret": 'ca3cdba202104fd88d01'
             }
-        self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'], debug=True)
+        self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'],
+                               server_uri=self.test_server_uri)
 
     def test_method_post_text(self):
         mail = Mail(
@@ -56,13 +58,17 @@ class TestAuthentication(unittest.TestCase):
             context_per_recipient=self.variables['context_per_recipient'],
             use_template_subject=True,
             use_template_email=False,
-            use_template_from=False
+            use_template_from=False,
+            activate_tracking=True,
+            get_text_from_html=True,
+            expose_recipients_list=True
         )
         response = self.postman.send_template(mail)
         if response and 'emails_enviados' in response:
             self.assertGreater(len(response['emails_enviados']), 0)
         else:
             self.assertIsNotNone(response)
+
 
 if __name__ == '__main__':
     unittest.main()

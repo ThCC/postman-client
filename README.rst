@@ -1,7 +1,11 @@
 Client service, to send simple text emails or, using a template created at Postman, send more complex emails.
 
 In order to use this library, you must create an account in Postman.
+
 ** **It is not currently possible to create an account in Postman, but will soon be** **
+
+How to install:
+    pip install postman_client
 
 Follow the examples below to send simple emails or emails with templates:
 

@@ -66,7 +66,9 @@ recipient_list - List - Yes - List of all the recipients. The expected format is
 
 subject - String - Yes* - The subject of the email. *In case your sending an email with template and pass `use_template_subject` as `True` then you don't need to pass the `subject`.
 
-message - String - Yes* - The `message` of the email. *Just pass this if your gonna send a simple text email.
+message_text - String - Yes* - The `message` of the email on text format. *Only Required if your gonna send a simple text email.
+
+message_html - String - No - The `message` of the email on html format. *If pass this and an `template_name` Postman is going to ignore the template's html.
 
 tags - Dict/List - No - The `tags` must be an dictionary containing keys and simple values or an list with strings.
 
@@ -82,11 +84,11 @@ use_template_email - Bool - No* - If set to `True` it use the default value set 
 
 use_template_subject - Bool - No* - If set to `True` it use the default value set to the subject.
 
-expose_recipients_list | Bool | No* | If set to `True` every recipient will see the entire list of recipients.
+expose_recipients_list - Bool - No* - If set to `True` every recipient will see the entire list of recipients.
 
-get_text_from_html | Bool | No* | If set to `True` postman will extract from your html template an text version. This will only happen if your template doesn't already have an text version.
+get_text_from_html - Bool - No* - If set to `True` postman will extract from your html template an text version. This will only happen if your template doesn't already have an text version.
 
-activate_tracking | Bool | No* | If set to `True` postman will track if your email will be open and how many times. Also it will track any links clicked inside the email.
+activate_tracking - Bool - No* - If set to `True` postman will track if your email will be open and how many times. Also it will track any links clicked inside the email.
 
 context - Dict - No - Global variables use in the Template. The format is expressed in the example (above).
 

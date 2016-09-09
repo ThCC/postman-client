@@ -20,14 +20,13 @@ class Mail(object):
         self.set_attr('subject', kwargs)
         self.set_attr('from_name', kwargs)
         self.set_attr('from_email', kwargs)
+        self.set_attr('message_text', kwargs)
+        self.set_attr('message_html', kwargs)
         self.set_attr('recipient_list', kwargs)
         self.check_recipient_list()
         self.set_attr('activate_tracking', kwargs)
         self.set_attr('get_text_from_html', kwargs)
-        self.set_attr('expose_recipients_list', kwargs)
-
-        # Simple mail vars
-        self.set_attr('message', kwargs)
+        # self.set_attr('expose_recipients_list', kwargs)
 
         # Template mail vars
         self.set_attr('headers', kwargs)

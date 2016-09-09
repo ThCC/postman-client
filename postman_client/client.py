@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from postman import endpoint, Api
-from exceptions import ImproperlyConfigured
+from postman_client import endpoint, Api
+from postman_client.exceptions import ImproperlyConfigured
 
 
 class PostMan(Api):

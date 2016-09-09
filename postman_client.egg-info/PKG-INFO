@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: postman-client
-Version: 0.1.6
+Version: 0.1.8
 Summary: Client service, to send simple text emails or, using a template created at Postman, send more complex emails.
 Home-page: https://github.com/ThCC/postman-client
 Author: Thiago Cardoso de Castro
@@ -9,7 +9,11 @@ License: MIT
 Description: Client service, to send simple text emails or, using a template created at Postman, send more complex emails.
         
         In order to use this library, you must create an account in Postman.
+        
         ** **It is not currently possible to create an account in Postman, but will soon be** **
+        
+        How to install:
+            pip install postman_client
         
         Follow the examples below to send simple emails or emails with templates:
         

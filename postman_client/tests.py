@@ -10,10 +10,10 @@ from client import PostMan
 class TestAuthentication(unittest.TestCase):
     def setUp(self):
         if variables:
-            self.test_server_uri = server_uri_test
+            self.server_uri_test = server_uri_test
             self.variables = variables
         else:
-            self.test_server_uri = None
+            self.server_uri_test = None
             self.variables = {
                 "recipients": [
                     "Foo Bar <foo.bar@gmail.com>",
@@ -27,16 +27,20 @@ class TestAuthentication(unittest.TestCase):
                 "from_name": 'Beutrano',
                 "from_email": 'beutrano@gmail.com',
                 "template_name": 'test-101',
+                "message_text": "Using this message instead.",
+                "message_html": "<em>Using this message <strong>instead</strong>.</em>",
                 "key": '2e7be7ced03535958e35',
                 "secret": 'ca3cdba202104fd88d01'
             }
         self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'],
-                               server_uri=self.test_server_uri)
+                               server_uri=self.server_uri_test)
 
     def test_method_post_text(self):
         mail = Mail(
             recipient_list=self.variables['recipients'],
-            message="Just a Test, delete if you want.",
+            message_text=self.variables["message_text"],
+            # remove comment if you gonna tested
+            # message_html=self.variables["message_html"],
             from_name=self.variables['from_name'],
             from_email=self.variables['from_email'],
             subject="Just a test"
@@ -56,12 +60,14 @@ class TestAuthentication(unittest.TestCase):
             template_name=self.variables['template_name'],
             context={'foobar': True},
             context_per_recipient=self.variables['context_per_recipient'],
+            # remove comment if you gonna tested
+            # message_text=self.variables["message_text"],
+            # message_html=self.variables["message_html"],
             use_template_subject=True,
             use_template_email=False,
             use_template_from=False,
             activate_tracking=True,
-            get_text_from_html=True,
-            expose_recipients_list=True
+            get_text_from_html=True
         )
         response = self.postman.send_template(mail)
         if response and 'emails_enviados' in response:

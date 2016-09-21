@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='postman_client',
-    version='0.1.8',
+    version='0.1.9',
     install_requires=[
         'requests==2.11.0',
         'simplejson==3.6.4',

@@ -74,8 +74,7 @@ class Mail(object):
             del payload['from_email']
         return payload['from'].strip()
 
-    @property
-    def payload(self):
+    def get_payload(self):
         payload = self.__dict__
         payload['from'] = Mail.__mount_param_from(payload)
 

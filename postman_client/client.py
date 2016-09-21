@@ -23,10 +23,10 @@ class PostMan(Api):
 
     @endpoint(Api.POST, '/api/send_mail/')
     def send(self, mail):
-        response = self.request(payload=mail.payload)
+        response = self.request(payload=mail.get_payload())
         return response
 
     @endpoint(Api.POST, '/api/send_mail/template/')
     def send_template(self, mail):
-        response = self.request(payload=mail.payload)
+        response = self.request(payload=mail.get_payload())
         return response

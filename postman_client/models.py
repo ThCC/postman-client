@@ -77,5 +77,6 @@ class Mail(object):
     def get_payload(self):
         payload = self.__dict__
         payload['from'] = Mail.__mount_param_from(payload)
+        payload['sended_by'] = 4
 
         return payload

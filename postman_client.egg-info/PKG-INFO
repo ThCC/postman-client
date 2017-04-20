@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: postman-client
-Version: 0.1.10
+Version: 0.1.11
 Summary: Client service, to send simple text emails or, using a template created at Postman, send more complex emails.
 Home-page: https://github.com/ThCC/postman-client
 Author: Thiago Cardoso de Castro

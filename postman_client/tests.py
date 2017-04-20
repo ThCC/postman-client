@@ -43,7 +43,7 @@ class TestAuthentication(unittest.TestCase):
             # message_html=self.variables["message_html"],
             from_name=self.variables['from_name'],
             from_email=self.variables['from_email'],
-            subject="Just a test"
+            subject="Just a test - Sended From Client"
         )
         response = self.postman.send(mail)
         if response and 'emails_enviados' in response:

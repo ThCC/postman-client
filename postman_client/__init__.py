@@ -80,7 +80,7 @@ class Api(object):
         url = self.server_uri + url
 
         # Generate and sign request URL
-        auth = self.sign_request(payload)
+        auth = self.sign_request()
         if auth:
             url = self.query_encode(url, auth)
 

@@ -6,7 +6,7 @@ from apysignature.signature import Request as Request_sig, Token
 from requests import Request, Session, ReadTimeout, ConnectTimeout, HTTPError
 
 __author__ = 'thiagocdecastro'
-__version__ = '0.1.11'
+__version__ = '0.1.12'
 logging.basicConfig(format='%(asctime)s %(message)s')
 
 
@@ -99,9 +99,15 @@ class Api(object):
             logging.info('EXTERNAL API: sending request on {0}'.format(url))
             response = self._session.send(prepped, timeout=timeout)
             valid_codes = (200, 201)
-            if response and response.status_code in valid_codes and response.content:
+
+            if hasattr(response, 'status'):
+                status_code = response.status
+            else:
+                status_code = response.status_code
+
+            if response and status_code in valid_codes and response.content:
                 response = json.loads(response.content)
-            elif response.status_code not in valid_codes:
+            elif status_code not in valid_codes:
                 logging.info("EXTERNAL API: request error: {0}".format(response.reason))
                 if not self.fail_silently:
                     content = json.loads(response.content)

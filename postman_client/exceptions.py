@@ -7,7 +7,7 @@ class BaseError(Exception):
 
 
 class InvalidParam(BaseError):
-    def __init__(self, message="PostmanError - Parametro {0} é inválido. Razão: {1}", codigo=None, message_values=()):
+    def __init__(self, message="PostmanError - Parameter {0} is invalid. Reason: {1}", codigo=None, message_values=()):
         self.message_values = message_values
         self.codigo = codigo
         if message_values:
@@ -16,7 +16,7 @@ class InvalidParam(BaseError):
 
 
 class APIError(BaseError):
-    def __init__(self, message="PostmanError. Razão: {0}", codigo=None, message_values=()):
+    def __init__(self, message="PostmanError. Reason: {0}", codigo=None, message_values=()):
         self.message_values = message_values
         self.codigo = codigo
         if message_values:
@@ -25,7 +25,7 @@ class APIError(BaseError):
 
 
 class ImproperlyConfigured(BaseError):
-    def __init__(self, message="PostmanError. Configuração inapropriada. Razão: {0}", codigo=None, message_values=()):
+    def __init__(self, message="PostmanError. Improper configuration. Reason: {0}", codigo=None, message_values=()):
         self.message_values = message_values
         self.codigo = codigo
         if message_values:

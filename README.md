@@ -66,11 +66,11 @@ Parameter | Type | Required | Description
 recipient_list | List | Yes | List of all the recipients. The expected format is 'Name `<email>`' or '`<email>`'.
 subject | String | Yes* | The subject of the email. *In case your sending an email with template and pass `use_template_subject` as `True` then you don't need to pass the `subject`.
 message_text | String | Yes* | The `message` of the email on text format. *Only Required if your gonna send a simple text email.
-message_html | String | No | The `message` of the email on html format. *If pass this and an `template_name` Postman is going to ignore the template's html.
+message_html | String | No | The `message` of the email on html format. *If pass this then you don't need to pass the `template_name`
 tags | Dict/List | No | The `tags` must be an dictionary containing keys and simple values or an list with strings.
 from_name | String | No* | The name of the sender. *In case your sending an email with template and pass `use_template_from` as `True` then you don't need to pass the `from_name`.
 from_email | String | Yes* | The email of the sender. *In case your sending an email with template and pass `use_template_email` as `True` then you don't need to pass the `from_email`.
-template_name | String | Yes* | The `template_name` is the slug of the template. *Just pass this if your gonna send a email with template.
+template_name | String | No | The `template_name` is the slug of the template. *Just pass this if your gonna send a email with template.
 use_template_from | Bool | No* | If set to `True` it use the default value set to the sender's name.
 use_template_email | Bool | No* | If set to `True` it use the default value set to the sender's email.
 use_template_subject | Bool | No* | If set to `True` it use the default value set to the subject.

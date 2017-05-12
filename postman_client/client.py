@@ -28,5 +28,5 @@ class PostMan(Api):
 
     @endpoint(Api.POST, '/api/send_mail/template/')
     def send_template(self, mail):
-        response = self.request(payload=mail.get_payload())
+        response = self.request(payload=mail.get_payload(endpoint='template'))
         return response

@@ -57,15 +57,15 @@ class TestAuthentication(unittest.TestCase):
             recipient_list=self.variables['recipients'],
             from_name=self.variables['from_name'],
             from_email=self.variables['from_email'],
-            template_name=self.variables['template_name'],
+            # template_name=self.variables['template_name'],
             context={'foobar': True},
             context_per_recipient=self.variables['context_per_recipient'],
             # remove comment if you gonna tested
             # message_text=self.variables["message_text"],
-            # message_html=self.variables["message_html"],
+            message_html=self.variables["message_html"],
             use_template_subject=True,
-            use_template_email=False,
-            use_template_from=False,
+            use_template_email=True,
+            use_template_from=True,
             activate_tracking=True,
             get_text_from_html=True
         )

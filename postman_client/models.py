@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
+from exceptions import AssertionError
 from postman_client.exceptions import InvalidParam
-from postman_client import item_in_dict, item_not_in_dict, attr_not_in_instance
+from postman_client import item_in_dict, attr_in_instance, attr_not_in_instance
 
 
 class Mail(object):
@@ -15,11 +16,6 @@ class Mail(object):
             'Impossible to send email without any recipient'
         assert 'subject' in kwargs or item_in_dict(kwargs, 'use_template_subject'), \
             'Impossible to send email without a subject'
-        assert ((item_in_dict(kwargs, 'use_template_subject') or
-                item_in_dict(kwargs, 'use_template_email') or
-                item_in_dict(kwargs, 'use_template_from')) and
-                (item_in_dict(kwargs, 'template_name'))), \
-            "Impossible to use template features, without passing 'template_name'"
 
         # General mail vars
         self.set_attr('tags', kwargs)
@@ -81,10 +77,15 @@ class Mail(object):
         return payload['from'].strip()
 
     def get_payload(self, endpoint='text'):
-        assert endpoint == 'template' and \
-               attr_not_in_instance(self, 'template_name') or attr_not_in_instance(self, 'message_html'), \
-               "Impossible to send a template email without a html content. Either you pass the 'template_name' or " \
-               "the 'message_html'"
+        if endpoint == 'template':
+            if attr_not_in_instance(self, 'template_name') and attr_not_in_instance(self, 'message_html'):
+                raise AssertionError("Impossible to send a template email without a html content. Either you pass "
+                                     "the 'template_name' or the 'message_html'")
+            if ((attr_in_instance(self, 'use_template_subject') or
+                 attr_in_instance(self, 'use_template_email') or
+                 attr_in_instance(self, 'use_template_from')) and
+                    (attr_not_in_instance(self, 'template_name'))):
+                raise AssertionError("Impossible to use template features, without passing 'template_name'")
 
         payload = self.__dict__
         payload['from'] = Mail.__mount_param_from(payload)

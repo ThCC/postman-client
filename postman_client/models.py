@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from postman_client.exceptions import InvalidParam, InvalidMailConfiguration
+from postman_client.exceptions import InvalidParam
 from postman_client import item_in_dict, attr_in_instance, attr_not_in_instance
 
 

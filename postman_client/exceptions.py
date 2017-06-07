@@ -6,6 +6,11 @@ class BaseError(Exception):
         super(Exception, self).__init__(message)
 
 
+class InvalidMailConfiguration(BaseError):
+    def __init__(self, message="PostmanError - Parameter {0} is invalid. Reason: {1}", codigo=None, message_values=()):
+        super(InvalidMailConfiguration, self).__init__(message, codigo, message_values)
+
+
 class InvalidParam(BaseError):
     def __init__(self, message="PostmanError - Parameter {0} is invalid. Reason: {1}", codigo=None, message_values=()):
         self.message_values = message_values

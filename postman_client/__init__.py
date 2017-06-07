@@ -6,7 +6,7 @@ from apysignature.signature import Request as Request_sig, Token
 from requests import Request, Session, ReadTimeout, ConnectTimeout, HTTPError
 
 __author__ = 'thiagocdecastro'
-__version__ = '0.2.0'
+__version__ = '0.2.2'
 logging.basicConfig(format='%(asctime)s %(message)s')
 
 
@@ -16,6 +16,10 @@ def item_in_dict(dictionary, item):
 
 def item_not_in_dict(dictionary, item):
     return item not in dictionary or not dictionary[item]
+
+
+def attr_in_instance(instance, attr):
+    return hasattr(instance, attr) and getattr(instance, attr)
 
 
 def attr_not_in_instance(instance, attr):

@@ -47,15 +47,15 @@ Follow the examples below to send simple emails or emails with templates:
             ],
             from_name='Beutrano',
             from_email='beutrano@gmail.com',
-            template_name='test-101',
+            template_slug='test-101',
             context={'foobar': True},
             context_per_recipient={
                 "foo.bar@gmail.com": {"foo": True},
                 "fulano.arquino@gmail.com.br": {"bar": True}
             },
-            use_template_subject=True,
-            use_template_email=False,
-            use_template_from=False
+            use_tpl_default_subject=True,
+            use_tpl_default_email=False,
+            use_tpl_default_name=False
         )
         response = self.postman.send_template(mail)
 
@@ -64,16 +64,16 @@ Follow the examples below to send simple emails or emails with templates:
 Parameter | Type | Required | Description
 ------------ | ------------ |------------- | -------------
 recipient_list | List | Yes | List of all the recipients. The expected format is 'Name `<email>`' or '`<email>`'.
-subject | String | Yes* | The subject of the email. *In case your sending an email with template and pass `use_template_subject` as `True` then you don't need to pass the `subject`.
+subject | String | Yes* | The subject of the email. *In case your sending an email with template and pass `use_tpl_default_subject` as `True` then you don't need to pass the `subject`.
 message_text | String | Yes* | The `message` of the email on text format. *Only Required if your gonna send a simple text email.
-message_html | String | No | The `message` of the email on html format. *If pass this then you don't need to pass the `template_name`
+message_html | String | No | The `message` of the email on html format. *If pass this then you don't need to pass the `template_slug`
 tags | Dict/List | No | The `tags` must be an dictionary containing keys and simple values or an list with strings.
-from_name | String | No* | The name of the sender. *In case your sending an email with template and pass `use_template_from` as `True` then you don't need to pass the `from_name`.
-from_email | String | Yes* | The email of the sender. *In case your sending an email with template and pass `use_template_email` as `True` then you don't need to pass the `from_email`.
-template_name | String | No | The `template_name` is the slug of the template. *Just pass this if your gonna send a email with template.
-use_template_from | Bool | No* | If set to `True` it use the default value set to the sender's name.
-use_template_email | Bool | No* | If set to `True` it use the default value set to the sender's email.
-use_template_subject | Bool | No* | If set to `True` it use the default value set to the subject.
+from_name | String | No* | The name of the sender. *In case your sending an email with template and pass `use_tpl_default_name` as `True` then you don't need to pass the `from_name`.
+from_email | String | Yes* | The email of the sender. *In case your sending an email with template and pass `use_tpl_default_email` as `True` then you don't need to pass the `from_email`.
+template_slug | String | No | The `template_slug` is the slug of the template. *Just pass this if your gonna send a email with template.
+use_tpl_default_name | Bool | No* | If set to `True` it use the default value set to the sender's name.
+use_tpl_default_email | Bool | No* | If set to `True` it use the default value set to the sender's email.
+use_tpl_default_subject | Bool | No* | If set to `True` it use the default value set to the subject.
 expose_recipients_list | Bool | No* | If set to `True` every recipient will see the entire list of recipients.
 get_text_from_html | Bool | No* | If set to `True` postman will extract from your html template an text version. This will only happen if your template doesn't already have an text version.
 activate_tracking | Bool | No* | If set to `True` postman will track if your email will be open and how many times. Also it will track any links clicked inside the email.

@@ -9,11 +9,11 @@ class Mail(object):
     EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
 
     def __init__(self, **kwargs):
-        assert 'from_email' in kwargs or item_in_dict(kwargs, 'use_template_email'), \
+        assert 'from_email' in kwargs or item_in_dict(kwargs, 'use_tpl_default_email'), \
             'Please provide an reply email'
         assert 'recipient_list' in kwargs and len(kwargs.get('recipient_list')), \
             'Impossible to send email without any recipient'
-        assert 'subject' in kwargs or item_in_dict(kwargs, 'use_template_subject'), \
+        assert 'subject' in kwargs or item_in_dict(kwargs, 'use_tpl_default_subject'), \
             'Impossible to send email without a subject'
 
         # General mail vars
@@ -32,10 +32,10 @@ class Mail(object):
         # Template mail vars
         self.set_attr('headers', kwargs)
         self.set_attr('context', kwargs)
-        self.set_attr('template_name', kwargs)
-        self.set_attr('use_template_from', kwargs)
-        self.set_attr('use_template_email', kwargs)
-        self.set_attr('use_template_subject', kwargs)
+        self.set_attr('template_slug', kwargs)
+        self.set_attr('use_tpl_default_name', kwargs)
+        self.set_attr('use_tpl_default_email', kwargs)
+        self.set_attr('use_tpl_default_subject', kwargs)
         self.set_attr('context_per_recipient', kwargs)
 
     def set_attr(self, attr, kwargs):
@@ -77,14 +77,14 @@ class Mail(object):
 
     def get_payload(self, endpoint='text'):
         if endpoint == 'template':
-            if attr_not_in_instance(self, 'template_name') and attr_not_in_instance(self, 'message_html'):
+            if attr_not_in_instance(self, 'template_slug') and attr_not_in_instance(self, 'message_html'):
                 raise AssertionError("Impossible to send a template email without a html content. Either you pass "
-                                     "the 'template_name' or the 'message_html'")
-            if ((attr_in_instance(self, 'use_template_subject') or
-                 attr_in_instance(self, 'use_template_email') or
-                 attr_in_instance(self, 'use_template_from')) and
-                    (attr_not_in_instance(self, 'template_name'))):
-                raise AssertionError("Impossible to use template features, without passing 'template_name'")
+                                     "the 'template_slug' or the 'message_html'")
+            if ((attr_in_instance(self, 'use_tpl_default_subject') or
+                 attr_in_instance(self, 'use_tpl_default_email') or
+                 attr_in_instance(self, 'use_tpl_default_name')) and
+                    (attr_not_in_instance(self, 'template_slug'))):
+                raise AssertionError("Impossible to use template features, without passing 'template_slug'")
 
         payload = self.__dict__
         payload['from'] = Mail.__mount_param_from(payload)

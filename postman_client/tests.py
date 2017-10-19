@@ -1,5 +1,6 @@
+# coding=utf-8
 try:
-    from test_variables import variables, server_uri_test
+    from test_variables import variables, server_uri_test, variables_mail_search, variables_mail_search_ids
 except ImportError:
     variables = False
 import unittest
@@ -12,6 +13,8 @@ class TestAuthentication(unittest.TestCase):
         if variables:
             self.server_uri_test = server_uri_test
             self.variables = variables
+            self.variables_mail_search = variables_mail_search
+            self.variables_mail_search_ids = variables_mail_search_ids
         else:
             self.server_uri_test = None
             self.variables = {
@@ -32,6 +35,12 @@ class TestAuthentication(unittest.TestCase):
                 "key": '2e7be7ced03535958e35',
                 "secret": 'ca3cdba202104fd88d01'
             }
+            self.variables_mail_search = {'app_ids': '1001',
+                                          'start': '2017-02-27',
+                                          'end': '2017-09-26'}
+
+            self.variables_mail_search_ids = ["07f6b39e7e474b4", "8508657f502f4d4", "1afd55c4e995461"]
+
         self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'],
                                server_uri=self.server_uri_test)
 
@@ -75,6 +84,19 @@ class TestAuthentication(unittest.TestCase):
         else:
             self.assertIsNotNone(response)
 
+    def test_method_get_mail_search(self):
+        response = self.postman.mail_search(self.variables_mail_search)
+        if response and len(response) > 0:
+            self.assertGreater(len(response), 0)
+        else:
+            self.assertIsNotNone(response)
+
+    def test_method_get_mail_search_by_ids(self):
+        response = self.postman.mail_search_by_ids(self.variables_mail_search_ids)
+        if response and len(response) > 0:
+            self.assertGreater(len(response), 0)
+        else:
+            self.assertIsNotNone(response)
 
 if __name__ == '__main__':
     unittest.main()

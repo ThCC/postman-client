@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 from postman_client.exceptions import APIError
 from apysignature.query_encoder import QueryEncoder
 from apysignature.signature import Request as Request_sig, Token
@@ -100,20 +101,19 @@ class Api(object):
         if auth:
             url = self.query_encode(url, auth)
 
+        logging.info('EXTERNAL API: sending request on {0}'.format(url))
         if payload and method == 'GET':
-            url = self.query_encode(url, payload)
-            payload = None
-
-        request = Request(
-            method, url,
-            json=payload,
-            headers=headers
-        )
-        prepped = request.prepare()
+            response = requests.get(url, payload)
+        else:
+            request = Request(
+                method, url,
+                json=payload,
+                headers=headers
+            )
+            prepped = request.prepare()
+            response = self._session.send(prepped, timeout=timeout)
 
         try:
-            logging.info('EXTERNAL API: sending request on {0}'.format(url))
-            response = self._session.send(prepped, timeout=timeout)
             valid_codes = (200, 201)
 
             if hasattr(response, 'status'):

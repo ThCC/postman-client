@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from postman_client.exceptions import InvalidParam
-from postman_client import item_in_dict, attr_in_instance, attr_not_in_instance
+from postman_client import item_in_dict, item_not_in_dict, attr_in_instance, attr_not_in_instance
 
 
 class Mail(object):
@@ -10,11 +10,11 @@ class Mail(object):
 
     def __init__(self, **kwargs):
         assert 'from_email' in kwargs or item_in_dict(kwargs, 'use_tpl_default_email'), \
-            'Please provide an reply email'
+            'Forneça o email do remetente'
         assert 'recipient_list' in kwargs and len(kwargs.get('recipient_list')), \
-            'Impossible to send email without any recipient'
+            'Impossível enviar um email sem uma lista de destinatários'
         assert 'subject' in kwargs or item_in_dict(kwargs, 'use_tpl_default_subject'), \
-            'Impossible to send email without a subject'
+            'Impossível enviar um email sem um assunto'
 
         # General mail vars
         self.set_attr('tags', kwargs)
@@ -57,7 +57,7 @@ class Mail(object):
         return email and self.__validate_email(email)
 
     def check_recipient_list(self):
-        exception_reason = "Expected format ('Name <email>'; or '<email>') wasn't matched"
+        exception_reason = "O formato esperado ('ome <email>'; ou '<email>') não foi encontrado"
         for recipient in getattr(self, 'recipient_list'):
             if not self.__validate_recipient(recipient):
                 raise InvalidParam(
@@ -78,16 +78,43 @@ class Mail(object):
     def get_payload(self, endpoint='text'):
         if endpoint == 'template':
             if attr_not_in_instance(self, 'template_slug') and attr_not_in_instance(self, 'message_html'):
-                raise AssertionError("Impossible to send a template email without a html content. Either you pass "
-                                     "the 'template_slug' or the 'message_html'")
+                raise AssertionError("Impossível enviar um email com template sem o conteúdo html. Ou você fornece "
+                                     "o 'template_slug' ou o 'message_html'")
             if ((attr_in_instance(self, 'use_tpl_default_subject') or
                  attr_in_instance(self, 'use_tpl_default_email') or
                  attr_in_instance(self, 'use_tpl_default_name')) and
                     (attr_not_in_instance(self, 'template_slug'))):
-                raise AssertionError("Impossible to use template features, without passing 'template_slug'")
+                raise AssertionError("Impossível usar os recursos de um template, sem fornecer o 'template_slug'")
 
         payload = self.__dict__
         payload['from'] = Mail.__mount_param_from(payload)
         payload['sended_by'] = 4
 
         return payload
+
+
+class SearchMailArgs(object):
+    def __init__(self, **kwargs):
+        if item_not_in_dict(kwargs, 'app_ids'):
+            raise AssertionError("Parâmetro 'app_ids' não foi fornecido.")
+        if item_not_in_dict(kwargs, 'start'):
+            raise AssertionError("Parâmetro 'start' não foi fornecido.")
+        if item_not_in_dict(kwargs, 'end'):
+            raise AssertionError("Parâmetro 'start' não foi fornecido.")
+
+        self.set_attr('end', kwargs)
+        self.set_attr('start', kwargs)
+        self.set_attr('status', kwargs)
+        self.set_attr('appIds', kwargs)
+        self.set_attr('nameSender', kwargs)
+        self.set_attr('emailSender', kwargs)
+        self.set_attr('templateSlug', kwargs)
+        self.set_attr('nameReceiver', kwargs)
+        self.set_attr('emailReceiver', kwargs)
+
+    def set_attr(self, attr, kwargs):
+        if attr in kwargs:
+            setattr(self, attr, kwargs.get(attr))
+
+    def get_payload(self):
+        return self.__dict__

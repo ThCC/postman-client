@@ -20,14 +20,15 @@ variables = {
 }
 server_uri_test = 'http://0.0.0.0:8000'
 
-variables_mail_search = {'app_ids': '1001',
-                         'start': '2017-02-27',
-                         'end': '2017-09-26'}
-
-variables_mail_search_ids = ['21da05e09a214bf',
-                             '7b9332128a3f461',
-                             '09f7ceac90fe4b3',
-                             '0f39a611031c4ff',
-                             'f2412b7062814de']
-
-
+search_variables = {
+    'app_ids': '1001',
+    'start': '2017-10-01',
+    'end': '2017-10-31',
+    'uuids': [
+        '21da05e09a214bf',
+        '7b9332128a3f461',
+        '09f7ceac90fe4b3',
+        '0f39a611031c4ff',
+        'f2412b7062814de'
+    ]
+}

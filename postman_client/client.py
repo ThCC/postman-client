@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from models import SearchMailArgs
 from postman_client import endpoint, Api
 from postman_client.exceptions import ImproperlyConfigured
 
@@ -33,28 +34,18 @@ class PostMan(Api):
         return response
 
     @endpoint(Api.GET, '/api/mail/search/')
-    def mail_search(self, args):
-        self.search_mail_payload(endpoint='mail_search', args=args)
-        response = self.request(payload=args)
+    def mail_search(self, search_args):
+        if not isinstance(search_args, SearchMailArgs):
+            AssertionError("Deve ser fornecido uma instancia do 'SearchMailArgs'.")
+        response = self.request(payload=search_args.get_payload())
         return response
 
     @endpoint(Api.GET, '/api/mail/search/specifics/')
     def mail_search_by_ids(self, uuids):
-        self.search_mail_payload(endpoint='mail_search_ids', args=uuids)
-        response = self.request(payload={'uuids': json.dumps(uuids)})
+        if not uuids:
+            AssertionError("Uma lista de uuids tem que ser fornecida.")
+        specifics = uuids
+        if not isinstance(specifics, list):
+            specifics = [specifics]
+        response = self.request(payload={'uuids': json.dumps(specifics)})
         return response
-
-    def search_mail_payload(self, endpoint='text', args=None):
-        param = None
-        if endpoint == 'mail_search':
-            if not args.get('app_ids'):
-                param = 'app_ids'
-            elif not args.get('start'):
-                param = 'start'
-            elif not args.get('end'):
-                param = 'end'
-        if endpoint == 'mail_search_ids':
-            if not args:
-                param = 'uuids'
-        if param:
-            raise AssertionError("Parâmetro " + param + " não foi fornecido.")

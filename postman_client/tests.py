@@ -1,45 +1,61 @@
 # coding=utf-8
 try:
-    from test_variables import variables, server_uri_test, variables_mail_search, variables_mail_search_ids
+    from test_variables import server_uri_test
+except ImportError:
+    server_uri_test = False
+try:
+    from test_variables import search_variables
+except ImportError:
+    search_variables = False
+try:
+    from test_variables import variables
 except ImportError:
     variables = False
 import unittest
-from models import Mail
+from models import Mail, SearchMailArgs
 from client import PostMan
 
 
 class TestAuthentication(unittest.TestCase):
     def setUp(self):
-        if variables:
-            self.server_uri_test = server_uri_test
-            self.variables = variables
-            self.variables_mail_search = variables_mail_search
-            self.variables_mail_search_ids = variables_mail_search_ids
-        else:
-            self.server_uri_test = None
-            self.variables = {
-                "recipients": [
-                    "Foo Bar <foo.bar@gmail.com>",
-                    "Fulano Aquino <fulano.aquino@gmail.com>",
-                    "<ciclano.norego@gmail.com>"
-                ],
-                "context_per_recipient": {
-                    "foo.bar@gmail.com": {"foo": True},
-                    "fulano.arquino@gmail.com.br": {"bar": True}
-                },
-                "from_name": 'Beutrano',
-                "from_email": 'beutrano@gmail.com',
-                "template_slug": 'test-101',
-                "message_text": "Using this message instead.",
-                "message_html": "<em>Using this message <strong>instead</strong>.</em>",
-                "key": '2e7be7ced03535958e35',
-                "secret": 'ca3cdba202104fd88d01'
-            }
-            self.variables_mail_search = {'app_ids': '1001',
-                                          'start': '2017-02-27',
-                                          'end': '2017-09-26'}
+        self.server_uri_test = None
+        self.variables = {
+            "recipients": [
+                "Foo Bar <foo.bar@gmail.com>",
+                "Fulano Aquino <fulano.aquino@gmail.com>",
+                "<ciclano.norego@gmail.com>"
+            ],
+            "context_per_recipient": {
+                "foo.bar@gmail.com": {"foo": True},
+                "fulano.arquino@gmail.com.br": {"bar": True}
+            },
+            "from_name": 'Beutrano',
+            "from_email": 'beutrano@gmail.com',
+            "template_slug": 'test-101',
+            "message_text": "Using this message instead.",
+            "message_html": "<em>Using this message <strong>instead</strong>.</em>",
+            "key": '2e7be7ced03535958e35',
+            "secret": 'ca3cdba202104fd88d01'
+        }
+        self.search_variables = {
+            'app_ids': '1001',
+            'start': '2017-10-26',
+            'end': '2017-10-27',
+            'uuids': [
+                '21da05e09a214bf',
+                '7b9332128a3f461',
+                '09f7ceac90fe4b3',
+                '0f39a611031c4ff',
+                'f2412b7062814de'
+            ]
+        }
 
-            self.variables_mail_search_ids = ["07f6b39e7e474b4", "8508657f502f4d4", "1afd55c4e995461"]
+        if variables:
+            self.variables = variables
+        if server_uri_test:
+            self.server_uri_test = server_uri_test
+        if search_variables:
+            self.search_variables = search_variables
 
         self.postman = PostMan(key=self.variables['key'], secret=self.variables['secret'],
                                server_uri=self.server_uri_test)
@@ -85,14 +101,19 @@ class TestAuthentication(unittest.TestCase):
             self.assertIsNotNone(response)
 
     def test_method_get_mail_search(self):
-        response = self.postman.mail_search(self.variables_mail_search)
+        search_args = SearchMailArgs(
+            app_ids=self.search_variables['app_ids'],
+            start=self.search_variables['start'],
+            end=self.search_variables['end']
+        )
+        response = self.postman.mail_search(search_args)
         if response and len(response) > 0:
             self.assertGreater(len(response), 0)
         else:
             self.assertIsNotNone(response)
 
     def test_method_get_mail_search_by_ids(self):
-        response = self.postman.mail_search_by_ids(self.variables_mail_search_ids)
+        response = self.postman.mail_search_by_ids(self.search_variables['uuids'])
         if response and len(response) > 0:
             self.assertGreater(len(response), 0)
         else:
